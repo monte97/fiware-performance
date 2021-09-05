@@ -96,8 +96,9 @@ services:
     image: wurstmeister/zookeeper
     ports:
       - "${ZOOKEEPER_EXT_PORT}:2181"
+
   kafka:
-    build: .
+    build: ./kafka-docker
     ports:
       - "${KAFKA_EXT_PORT}:9092"
     environment:
@@ -107,14 +108,6 @@ services:
       KAFKA_CREATE_TOPICS: "test,all,cameras,thermometers"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-
-
-
-networks:
-  default_net:
-    ipam:
-      config:
-        - subnet: 172.18.1.0/24
 
 volumes:
   mongo-db-orion: ~

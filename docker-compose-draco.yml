@@ -15,7 +15,7 @@ services:
       - "${DRACO_API_PORT}"
     ports:
       - "${DRACO_API_PORT}:${DRACO_API_PORT}" # localhost:9090
-      - "5051:5050"
+      - "${DRACO_WS_PORT}:5050"
     volumes:
       - ./draco/config:/config
     healthcheck:
