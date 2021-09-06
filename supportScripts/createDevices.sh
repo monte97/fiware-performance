@@ -2,25 +2,24 @@
 FROM=$1
 NUM=$2
 TIME=$3
-SUB_NUM=$4
-HOW_MANY=$5
-HOW_OFTEN=$6
-STEP=$7
-PAYLOAD_KB=$8
-EXP_NAME=$9
+HOW_MANY=$4
+HOW_OFTEN=$5
+STEP=$6
+PAYLOAD_KB=$7
+EXP_NAME=$8
 
 echo ${EXP_NAME}
 
 #build image
 echo $(pwd)
 cd  ~/tmp/fiware-performance/devices/simpleDevice
-docker build -t monte/device . &>/dev/null
+docker build -t monte/device .
 
-sleep 1m
+#sleep 1m
 
 #start devices
 for ((i=${FROM}; i<${FROM}+${NUM}; i++))
 do
   echo ${i}
-  ./launcher.sh ${i} off ${TIME} ${EXP_NAME} ${HOW_MANY} ${HOW_OFTEN} ${STEP} ${PAYLOAD_KB} &
+  ./launcher.sh ${i} off ${TIME} ${EXP_NAME} ${HOW_MANY} ${HOW_OFTEN} ${STEP} ${PAYLOAD_KB}
 done
