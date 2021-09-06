@@ -10,5 +10,5 @@ echo "stop draco on ${DRACO_IP}"
 ssh fmontelli@${DRACO_IP}  docker-compose -f ${ROOT}/${CODE_FOLDER}/docker-compose-draco.yml down
 
 echo "stop devices on ${DEVICE_IP}"
-docker ps --filter name=term* --filter status=running -aq | xargs docker stop
-docker rm $(docker container ls -aq --filter name=term*) -f
+docker ps --filter name=device* --filter status=running -aq | xargs docker stop
+docker rm $(docker container ls -aq --filter name=device*) -f
