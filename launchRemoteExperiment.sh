@@ -1,7 +1,4 @@
 #!/bin/bash
-FIWARE_IP="137.204.74.57"
-DRACO_IP="137.204.74.56"
-
 if [ -f .env ]; then
   export $(echo $(cat .env | sed 's/#.*//g'| xargs) | envsubst)
 fi
