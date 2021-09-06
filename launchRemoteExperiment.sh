@@ -18,9 +18,6 @@ PAYLOAD_KB=$7
 EXP_NAME=${NUM_DEVICE}_${DEVICE_TIME}_${HOW_MANY_MESSAGES}_${SUB_NUM}_${HOW_OFTEN_SPEEDUP}_${SPEEDUP}_${PAYLOAD_KB}_`date +"%G%m%d_%H%M"`
 echo ${EXP_NAME}
 
-ROOT="/home/fmontelli"
-CODE_FOLDER="tmp/fiware-performance"
-
 #avviare fiware
 echo "setup fiware on ${FIWARE_IP}"
 ssh fmontelli@${FIWARE_IP}  docker-compose -f ${ROOT}/${CODE_FOLDER}/docker-compose-fiware.yml up --build &>/dev/null &
