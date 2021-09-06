@@ -34,8 +34,9 @@ echo "setup fiware on ${FIWARE_IP} complete"
 
 echo "setup draco on ${DRACO_IP}"
 echo "wait for completion"
+ssh fmontelli@${DRACO_IP} chmod -R 777 ${ROOT}/${CODE_FOLDER}/draco/nifi_volume
 ssh fmontelli@${DRACO_IP} docker-compose -f ${ROOT}/${CODE_FOLDER}/docker-compose-draco.yml up --build &>/dev/null &
-./supportScripts/wait-for-it.sh ${DRACO_IP}:${DRACO_API_PORT} --timeout=480 --echo "draco is up"
+./supportScripts/wait-for-it.sh ${DRACO_IP}:${DRACO_API_PORT} --timeout=480 -- echo "draco is up"
 echo "setup draco on ${DRACO_IP} complete"
 
 
