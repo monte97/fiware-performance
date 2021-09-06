@@ -19,7 +19,7 @@ EXP_NAME=${NUM_DEVICE}_${TERM_TIME}_${HOW_MANY_MESSAGES}_${SUB_NUM}_${HOW_OFTEN_
 echo ${EXP_NAME}
 
 ROOT="/home/fmontelli"
-CODE_FOLDER="tmp/fiware-performance2"
+CODE_FOLDER="tmp/fiware-performance"
 
 #avviare fiware
 echo "setup fiware on ${FIWARE_IP}"
@@ -28,8 +28,8 @@ echo "wait for seutp completion"
 ./supportScripts/wait-for-it.sh ${FIWARE_IP}:${ZOOKEEPER_EXT_PORT} --timeout=480 -- echo "zookeeper is up"
 ./supportScripts/wait-for-it.sh ${FIWARE_IP}:${KAFKA_EXT_PORT} --timeout=480 -- echo "kafka is up"
 ./supportScripts/wait-for-it.sh ${FIWARE_IP}:${MOSQUITTO_PORT_EXT} --timeout=480 -- echo "mosquitto is up"
-./supportScripts/wait-for-it.sh ${FIWARE_IP}:${ORION_PORT_EXT} --timeout=480 --echo "orion is up"
-./supportScripts/wait-for-it.sh ${FIWARE_IP}:${IOTA_NORTH_PORT} --timeout=480 --echo "iota is up"
+./supportScripts/wait-for-it.sh ${FIWARE_IP}:${ORION_PORT_EXT} --timeout=480 -- echo "orion is up"
+./supportScripts/wait-for-it.sh ${FIWARE_IP}:${IOTA_NORTH_PORT} --timeout=480 -- echo "iota is up"
 echo "setup fiware on ${FIWARE_IP} complete"
 
 echo "setup draco on ${DRACO_IP}"
