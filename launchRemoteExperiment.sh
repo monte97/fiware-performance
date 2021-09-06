@@ -30,6 +30,23 @@ echo "wait for seutp completion"
 ./supportScripts/wait-for-it.sh ${FIWARE_IP}:${ORION_PORT_EXT} --timeout=480 -- echo "orion is up"
 ./supportScripts/wait-for-it.sh ${FIWARE_IP}:${IOTA_NORTH_PORT} --timeout=480 -- echo "iota is up"
 echo "setup fiware on ${FIWARE_IP} complete"
+curl -iX POST \
+  "http://${FIWARE_IP}:${IOTA_NORTH_PORT}/iot/services" \
+  -H 'Content-Type: application/json' \
+  -H 'fiware-service: openiot' \
+  -H 'fiware-servicepath: /' \
+  -d '{
+ "services": [
+   {
+     "apikey":      "4jggokgpepnvsb2uv4s40d59ov",
+     "cbroker":     "http://orion:1026",
+     "entity_type": "Thing",
+     "resource":    ""
+   }
+ ]
+}' #&>/dev/null
+echo "setup service group complete"
+
 
 echo "setup draco on ${DRACO_IP}"
 echo "wait for completion"
@@ -101,8 +118,10 @@ do
         "type": "command",
         "value": ""
       }
-  }' &
+  }'
 done
+
+sleep 20s
 
 echo "wait completion"
 count_device=$(($(ssh fmontelli@${DEVICE_IP} "docker ps | wc -l")-1))
