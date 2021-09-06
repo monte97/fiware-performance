@@ -1,5 +1,9 @@
 #!/bin/bash
 
+if [ -f ./../../.env ]; then
+  export $(echo $(cat ./../../.env | sed 's/#.*//g'| xargs) | envsubst)
+fi
+
 NUM=$1
 STATUS=$2
 TIME=$3
@@ -9,11 +13,8 @@ HOW_OFTEN=$6
 STEP=$7
 PAYLOAD_KB=$8
 
-FIWARE_HOST="137.204.74.59"
-IOTA_PORT="4041"
-
-echo ${FIWARE_HOST}
-echo ${IOTA_PORT}
+echo ${FIWARE_IP}
+echo ${IOTA_NORTH_PORT}
 
 curl \
     --max-time 10 \
@@ -22,7 +23,7 @@ curl \
     --retry-delay 0 \
     --retry-max-time 40 \
   -iX POST \
-  "http:/${FIWARE_HOST}:${IOTA_PORT}/iot/devices" \
+  "http:/${FIWARE_IP}:${IOTA_NORTH_PORT}/iot/devices" \
   -H 'Content-Type: application/json' \
   -H 'fiware-service: openiot' \
   -H 'fiware-servicepath: /' \
@@ -58,6 +59,6 @@ docker run \
   --env HOW_OFTEN=${HOW_OFTEN} \
   --env STEP=${STEP} \
   --env PAYLOAD_KB=${PAYLOAD_KB} \
-  --name term${NUM} \
-  -v ~/demoweb2_performance_websplit/devices/thermometerMQTT3-remoteVersion/mylogs:/tmp/test/mylogs \
-  monte/term
+  --name device${NUM} \
+  -v ${ROOT}/${CODE_FOLDER}/devices/simpleDevice/mylogs:/tmp/test/mylogs \
+  monte/device
