@@ -69,13 +69,14 @@ done
 echo "Finish subscriptions creation"
 
 echo "launch remote device on ${DEVICE_IP}"
-ssh fmontelli@${DEVICE_IP} ${ROOT}/${CODE_FOLDER}/supportScripts/createDevices.sh ${START_58} ${NUM_58} ${TERM_TIME} ${SUB_NUM} ${HOW_MANY_MESSAGES} ${HOW_OFTEN_SPEEDUP} ${SPEEDUP} ${PAYLOAD_KB} ${EXP_NAME} $>/dev/null &
+ssh fmontelli@${DEVICE_IP} ${ROOT}/${CODE_FOLDER}/supportScripts/createDevices.sh 0 ${NUM_DEVICE} ${DEVICE_TIME} ${HOW_MANY_MESSAGES} ${HOW_OFTEN_SPEEDUP} ${SPEEDUP} ${PAYLOAD_KB} ${EXP_NAME} &>/dev/null &
 echo "wait launch on ${DEVICE_IP} completion"
 count_device=$(($(ssh fmontelli@${DEVICE_IP} "docker ps | wc -l")-1))
-while [ "${count_device}" != "${NUM_DEIVICE}" ]
+while [ "${count_device}" != "${NUM_DEVICE}" ]
 do
   count_device=$(($(ssh fmontelli@${DEVICE_IP} "docker ps | wc -l")-1))
   sleep 10s
+  echo "${count_device}/${NUM_DEVICE} device created"
 done
 echo "launch on ${DEVICE_IP} complete"
 
