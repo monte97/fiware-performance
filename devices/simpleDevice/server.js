@@ -94,7 +94,7 @@ function measure(){
 
 
 client.on("connect", function() {
-  console.log("connection enstablished")
+  console.log(`[device${ID}]: connection enstablished`)
   /**
    * Tells fiware if i'm already on or not
    */
