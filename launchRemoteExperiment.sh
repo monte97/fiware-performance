@@ -133,10 +133,10 @@ done
 echo "completed"
 
 echo "wait before stop"
-sleep 10m
+sleep 10s
 
 
-./supportScript/stopAll.sh
+./supportScripts/stopAll.sh
 
 
 if false
