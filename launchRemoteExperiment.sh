@@ -124,10 +124,10 @@ done
 sleep 20s
 
 echo "wait completion"
-count_device=$(($(ssh fmontelli@${DEVICE_IP} "docker ps | wc -l")-1))
+count_device=$(($(ssh fmontelli@${DEVICE_IP} "docker ps | grep device | wc -l")))
 while [ "${count_58}" != "0" ]
 do
-  count_device=$(($(ssh fmontelli@${DEVICE_IP} "docker ps | wc -l")-1))
+  count_device=$(($(ssh fmontelli@${DEVICE_IP} "docker ps | grep device | wc -l")))
   sleep 10s
 done
 echo "completed"
