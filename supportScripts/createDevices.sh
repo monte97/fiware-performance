@@ -13,11 +13,10 @@ echo ${EXP_NAME}
 
 #build image
 echo $(pwd)
-cd  ~/tmp/fiware-performance2/devices/simpleDevice
+cd  ~/tmp/fiware-performance/devices/simpleDevice
 docker build -t monte/device . &>/dev/null
 
 sleep 1m
-
 
 #start devices
 for ((i=${FROM}; i<${FROM}+${NUM}; i++))
