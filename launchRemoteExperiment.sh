@@ -15,7 +15,7 @@ HOW_OFTEN_SPEEDUP=$5
 SPEEDUP=$6
 PAYLOAD_KB=$7
 
-EXP_NAME=${NUM_DEVICE}_${TERM_TIME}_${HOW_MANY_MESSAGES}_${SUB_NUM}_${HOW_OFTEN_SPEEDUP}_${SPEEDUP}_${PAYLOAD_KB}_`date +"%G%m%d_%H%M"`
+EXP_NAME=${NUM_DEVICE}_${DEVICE_TIME}_${HOW_MANY_MESSAGES}_${SUB_NUM}_${HOW_OFTEN_SPEEDUP}_${SPEEDUP}_${PAYLOAD_KB}_`date +"%G%m%d_%H%M"`
 echo ${EXP_NAME}
 
 ROOT="/home/fmontelli"
@@ -116,12 +116,8 @@ echo "completed"
 echo "wait before stop"
 sleep 10m
 
-echo "stop draco on ${DRACO_IP}"
-ssh fmontelli@${DRACO_IP}  docker-compose -f ${ROOT}/${CODE_FOLDER}/docker-compose-draco.yml up --build &>/dev/null &
 
-echo "stop fiware on ${FIWARE_IP}"
-ssh fmontelli@${FIWARE_IP}  docker-compose -f ${ROOT}/${CODE_FOLDER}/docker-compose-fiware.yml up --build &>/dev/null &
-
+./supportScript/stopAll.sh
 
 
 if false
