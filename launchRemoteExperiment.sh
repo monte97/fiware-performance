@@ -67,7 +67,7 @@ do
     --header 'Content-Type: application/json' \
     --header 'fiware-service: openiot' \
     --header 'fiware-servicepath: /' \
-    --data "{
+    --data '{
     "description": "Notify me when any Device changes state",
     "subject": {
     "entities": [{"idPattern": ".*","type": "Device"}],
@@ -81,7 +81,7 @@ do
     },
     "attrsFormat" : "keyValues"
     }
-  }"
+  }'
 done
 echo "Finish subscriptions creation"
 
