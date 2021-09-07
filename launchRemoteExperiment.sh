@@ -63,12 +63,12 @@ for ((i=0; i<${SUB_NUM}; i++))
 do
   echo "sub ${i}"
   curl -iX POST \
-    --url 'http://${FIWARE_IP}:${ORION_PORT_EXT}/v2/subscriptions' \
+    --url "http://${FIWARE_IP}:${ORION_PORT_EXT}/v2/subscriptions" \
     --header 'Content-Type: application/json' \
     --header 'fiware-service: openiot' \
     --header 'fiware-servicepath: /' \
-    --data '{
-    "description": "Notify me when any Thermometer changes state",
+    --data "{
+    "description": "Notify me when any Device changes state",
     "subject": {
     "entities": [{"idPattern": ".*","type": "Device"}],
     "condition": {
@@ -77,11 +77,11 @@ do
     },
     "notification": {
     "http": {
-      "url": "http://${DRACO_IP}:${DRACO_WS_PORT}/v2/notify"
+      "url": "'"http://${DRACO_IP}:${DRACO_WS_PORT}/v2/notify"'"
     },
     "attrsFormat" : "keyValues"
     }
-  }' &>/dev/null
+  }"
 done
 echo "Finish subscriptions creation"
 
