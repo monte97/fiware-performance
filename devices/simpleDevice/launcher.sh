@@ -40,7 +40,7 @@ curl \
        ],
       "attributes": [
         { "object_id": "s", "name": "Status", "type": "Boolean" },
-        { "object_id": "time", "name": "Time", "type": "Integer" },
+        { "object_id": "time", "name": "DeviceTime", "type": "Integer" },
         { "object_id": "p", "name": "Payload", "type": "String" }
      ]
     }
