@@ -72,7 +72,7 @@ do
     "subject": {
     "entities": [{"idPattern": ".*","type": "Device"}],
     "condition": {
-      "attrs": ["Status", "Payload", "Timestamp"]
+      "attrs": ["Status", "Payload", "Time"]
     }
     },
     "notification": {
