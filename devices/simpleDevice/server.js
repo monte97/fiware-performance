@@ -72,7 +72,7 @@ function measure(){
   if (isEnabled) {
     let date = new Date()
     stream.write(`${(date.toISOString())}, ${date.getTime()}, device${ID}\n`)
-    client.publish(`/${KEY}/thermometer${ID}/attrs`, `{"p": "${payload}", "s":${isEnabled}, "time":${date.getTime()}}`)
+    client.publish(`/${KEY}/device${ID}/attrs`, `{"p": "${payload}", "s":${isEnabled}, "time":${date.getTime()}}`)
     console.log(`device${ID}: ${counter}/${HOW_MANY}, this step: ${counter_step}/${HOW_OFTEN})`)
     counter++
     counter_step++
