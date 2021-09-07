@@ -63,7 +63,7 @@ for ((i=0; i<${SUB_NUM}; i++))
 do
   echo "sub ${i}"
   curl -iX POST \
-    --url 'http://${FIWARE_UP}:${ORION_PORT_EXT}/v2/subscriptions' \
+    --url 'http://${FIWARE_IP}:${ORION_PORT_EXT}/v2/subscriptions' \
     --header 'Content-Type: application/json' \
     --header 'fiware-service: openiot' \
     --header 'fiware-servicepath: /' \
