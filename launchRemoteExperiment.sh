@@ -47,10 +47,16 @@ curl -iX POST \
 }' #&>/dev/null
 echo "setup service group complete"
 
-
 echo "setup pykafkaconsumer"
 ssh fmontelli@${KAFKACONSUMER_IP} docker-compose -f ${ROOT}/${CODE_FOLDER}/docker-compose-pythonconsumer.yml up --build &>/dev/null &
-echo "setup pykafkaconsuer done"
+echo "wait launch on ${KAFKACONSUMER_IP} completion"
+count_consumer=$(($(ssh fmontelli@${KAFKACONSUMER_IP} "docker ps | grep pykafkaconsumer | wc -l")))
+while [ "${count_consumer}" != 1 ]
+do
+  count_consumer=$(($(ssh fmontelli@${KAFKACONSUMER_IP} "docker ps | grep pykafkaconsumer | wc -l")))
+  sleep 10s
+done
+echo "setup of pykafkaconsuer on ${KAFKACONSUMER_IP} done"
 
 
 echo "setup draco on ${DRACO_IP}"
