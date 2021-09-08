@@ -48,6 +48,11 @@ curl -iX POST \
 echo "setup service group complete"
 
 
+echo "setup pykafkaconsumer"
+ssh fmontelli@${KAFKACONSUMER_IP} docker-compose -f ${ROOT}/${CODE_FOLDER}/docker-compose-pythonconsumer.yml up --build &>/dev/null &
+echo "setup pykafkaconsuer done"
+
+
 echo "setup draco on ${DRACO_IP}"
 echo "wait for completion"
 ssh fmontelli@${DRACO_IP} chmod -R 777 ${ROOT}/${CODE_FOLDER}/draco/nifi_volume
