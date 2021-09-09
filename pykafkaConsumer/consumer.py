@@ -1,6 +1,12 @@
-from time import sleep
+from time import strftime
 from json import loads
 from kafka import KafkaConsumer
+import os
+
+timestr = strftime("%Y%m%d-%H%M%S")
+os.mknod("/mylogs/"+timestr+".csv")
+
+log = open("/mylogs/"+timestr+".csv", "a")
 
 consumer = KafkaConsumer(
     'fiware-monitoring-montelli-1997',
@@ -25,4 +31,7 @@ for message in consumer:
       print("kafka timestamp", kafkaTimestamp)
       print("draco timestamp", dracoTimestamp)
       print("device timestamp", deviceTimestamp)
+      log.write("{}, {}, {}, {}, {}\n".format(deviceID, deviceStatus, kafkaTimestamp, dracoTimestamp, deviceTimestamp))
+      log.flush()
+      os.fsync(log.fileno())
     print("_____")
