@@ -14,6 +14,8 @@ HOW_MANY_MESSAGES=$4
 HOW_OFTEN_SPEEDUP=$5
 SPEEDUP=$6
 PAYLOAD_KB=$7
+GROUP_EXP="${8:-misc}"
+
 
 EXP_NAME=${NUM_DEVICE}_${DEVICE_TIME}_${HOW_MANY_MESSAGES}_${SUB_NUM}_${HOW_OFTEN_SPEEDUP}_${SPEEDUP}_${PAYLOAD_KB}_`date +"%G%m%d_%H%M"`
 echo ${EXP_NAME}
@@ -144,23 +146,26 @@ done
 echo "completed"
 
 echo "wait before stop"
-sleep 10s
+sleep 2m
 
 
 ./supportScripts/stopAll.sh
 
 
-if false
-then
-echo "download files"
-LOGS_FOLDER="logs"
-mkdir ${LOGS_FOLDER}/${EXP_NAME}
-mkdir ${LOGS_FOLDER}/${EXP_NAME}/"devices"
-mkdir ${LOGS_FOLDER}/${EXP_NAME}/"kafka-consumer"
+echo "Begin download files"
 
-ssh fmontelli@137.204.74.56 "ls -1t ${ROOT}/${CODE_FOLDER}/webserver/mylogs2/*.csv | head -1 | xargs -I{} mv {} ${ROOT}/${CODE_FOLDER}/webserver/mylogs2/${EXP_NAME}.csv"
-scp fmontelli@137.204.74.56:${ROOT}/${CODE_FOLDER}/webserver/mylogs2/${EXP_NAME}.csv ~/tesi/${CODE_FOLDER}/logs/${EXP_NAME}/webserver/ &>/dev/null
+LOGS_FOLDER="master_logs"
 
-#Fare la copia dei log verso questa macchina
-scp fmontelli@${DEVICE_IP}:${ROOT}/${CODE_FOLDER}/devices/thermometerMQTT3-remoteVersion/mylogs/${EXP_NAME}/*.csv ~/tesi/${CODE_FOLDER}/logs/${EXP_NAME}/devices/
-fi
+mkdir -p ${LOGS_FOLDER}/${GROUP_EXP}/${EXP_NAME}
+mkdir -p ${LOGS_FOLDER}/${GROUP_EXP}/${EXP_NAME}/"devices"
+mkdir -p ${LOGS_FOLDER}/${GROUP_EXP}/${EXP_NAME}/"consumer"
+
+echo "download device data"
+scp fmontelli@${DEVICE_IP}:${ROOT}/${CODE_FOLDER}/devices/simpleDevice/mylogs/${EXP_NAME}/*.csv ${LOGS_FOLDER}/${GROUP_EXP}/${EXP_NAME}/"devices"/
+
+echo "download consumer data"
+ssh fmontelli@${KAFKACONSUMER_IP} "ls -1t ${ROOT}/${CODE_FOLDER}/pykafkaConsumer/mylogs/*.csv | head -1 | xargs -I{} mv {} ${ROOT}/${CODE_FOLDER}/pykafkaConsumer/mylogs/${EXP_NAME}.csv"
+scp fmontelli@${KAFKACONSUMER_IP}:${ROOT}/${CODE_FOLDER}/pykafkaConsumer/mylogs/${EXP_NAME}.csv ${LOGS_FOLDER}/${GROUP_EXP}/${EXP_NAME}/consumer/
+echo "download done"
+
+
