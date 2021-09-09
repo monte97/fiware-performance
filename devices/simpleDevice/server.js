@@ -4,7 +4,7 @@
 
 */
 
-const mqtt = require('mqtt')
+const mqtt = require('async-mqtt')
 const fs = require('fs')
 require("dotenv").config()
 
@@ -69,12 +69,12 @@ function getMillis(){
   return date.getTime()
 }
 
-function measure(){
+async function measure(){
   if (isEnabled) {
     let date = new Date()
     //stream.write(`${(date.toISOString())}, ${date.getTime()}, device${ID}\n`)
     stream.write(`device${ID}, ${isEnabled}, ${date.getTime()}\n`)
-    client.publish(`/${KEY}/device${ID}/attrs`, `{"p": "${payload}", "s":${isEnabled}, "time":${date.getTime()}}`)
+    await client.publish(`/${KEY}/device${ID}/attrs`, `{"p": "${payload}", "s":${isEnabled}, "time":${date.getTime()}}`)
     console.log(`device${ID}: ${counter}/${HOW_MANY}, this step: ${counter_step}/${HOW_OFTEN})`)
     counter++
     counter_step++
