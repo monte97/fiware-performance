@@ -5,5 +5,7 @@ services:
     hostname: pykafkavonsumer
     build: ./pykafkaConsumer
     container_name: pykafkaconsumer
+    volumes:
+      - ./pykafkaConsumer/mylogs:/mylogs
     networks:
       - default
