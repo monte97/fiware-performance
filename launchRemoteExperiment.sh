@@ -16,6 +16,7 @@ SPEEDUP=$6
 PAYLOAD_KB=$7
 GROUP_EXP="${8:-misc}"
 
+FIRST_ID=1000
 
 EXP_NAME=${NUM_DEVICE}_${DEVICE_TIME}_${HOW_MANY_MESSAGES}_${SUB_NUM}_${HOW_OFTEN_SPEEDUP}_${SPEEDUP}_${PAYLOAD_KB}_`date +"%G%m%d_%H%M"`
 echo ${EXP_NAME}
@@ -42,7 +43,7 @@ curl -iX POST \
    {
      "apikey":      "4jggokgpepnvsb2uv4s40d59ov",
      "cbroker":     "http://orion:1026",
-     "entity_type": "Thing",
+     "entity_type": "Device",
      "resource":    ""
    }
  ]
@@ -67,6 +68,8 @@ ssh fmontelli@${DRACO_IP} chmod -R 777 ${ROOT}/${CODE_FOLDER}/draco/nifi_volume
 ssh fmontelli@${DRACO_IP} docker-compose -f ${ROOT}/${CODE_FOLDER}/docker-compose-draco.yml up --build &>/dev/null &
 ./supportScripts/wait-for-it.sh ${DRACO_IP}:${DRACO_API_PORT} --timeout=480 -- echo "draco is up"
 echo "setup draco on ${DRACO_IP} complete"
+
+ssh fmontelli@${FIWARE_IP} ${ROOT}/${CODE_FOLDER}/supportScripts/createIndexMongo.sh
 
 
 echo "setup subscriptions"
@@ -99,7 +102,7 @@ done
 echo "Finish subscriptions creation"
 
 echo "launch remote device on ${DEVICE_IP}"
-ssh fmontelli@${DEVICE_IP} ${ROOT}/${CODE_FOLDER}/supportScripts/createDevices.sh 0 ${NUM_DEVICE} ${DEVICE_TIME} ${HOW_MANY_MESSAGES} ${HOW_OFTEN_SPEEDUP} ${SPEEDUP} ${PAYLOAD_KB} ${EXP_NAME} &>/dev/null &
+ssh fmontelli@${DEVICE_IP} ${ROOT}/${CODE_FOLDER}/supportScripts/createDevices.sh ${FIRST_ID} ${NUM_DEVICE} ${DEVICE_TIME} ${HOW_MANY_MESSAGES} ${HOW_OFTEN_SPEEDUP} ${SPEEDUP} ${PAYLOAD_KB} ${EXP_NAME} &>/dev/null &
 echo "wait launch on ${DEVICE_IP} completion"
 count_device=$(($(ssh fmontelli@${DEVICE_IP} "docker ps | grep device | wc -l")))
 while [ "${count_device}" != "${NUM_DEVICE}" ]
@@ -112,14 +115,14 @@ echo "launch on ${DEVICE_IP} complete"
 
 echo "turn on all the devices"
 #dare on  a tutti i device, on deve essere mandato ad OCB
-for ((i=0; i<${NUM_DEVICE}; i++))
+for ((i=${FIRST_ID}; i<${FIRST_ID}+${NUM_DEVICE}; i++))
 do
   echo ${i}
   curl \
     --max-time 10 \
     --connect-timeout 2 \
     --retry 5 \
-    --retry-delay 0 \
+    --retry-delay 2 \
     --retry-max-time 40 \
     -iX PATCH \
     --url "http://${FIWARE_IP}:${ORION_PORT_EXT}/v2/entities/urn:ngsi-ld:device:${i}/attrs" \
@@ -132,6 +135,7 @@ do
         "value": ""
       }
   }'
+  sleep 1s
 done
 
 sleep 20s
@@ -146,10 +150,10 @@ done
 echo "completed"
 
 echo "wait before stop"
-sleep 2m
+sleep 10m
 
 
-./supportScripts/stopAll.sh
+#./supportScripts/stopAll.sh
 
 
 echo "Begin download files"
