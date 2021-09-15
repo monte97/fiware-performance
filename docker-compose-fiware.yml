@@ -15,7 +15,7 @@ services:
     ports:
       - "${ORION_PORT_EXT}:${ORION_PORT}" # localhost:1026
       ##modificato sia per indicare di usare cors e per indicare il nome del nuovo DB
-    command: -corsOrigin __ALL -dbhost mongo-db-orion -logLevel DEBUG
+    command: -corsOrigin __ALL -dbhost mongo-db-orion -logLevel ERROR
     environment:
       - NODE_OPTIONS=--max_old_space_size=60000
     healthcheck:
@@ -67,6 +67,8 @@ services:
       - IOTA_DEFAULT_RESOURCE=
       - NODE_OPTIONS=--max_old_space_size=60000
       - ORION_IN_REQ_PAYLOAD_MAX_SIZE=10000000000
+      - IOTA_MULTI_CORE=True
+      - IOTA_LOG_LEVEL=ERROR
     healthcheck:
       interval: 5s
 
