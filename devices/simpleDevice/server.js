@@ -18,7 +18,7 @@ const EXP_NAME = process.env.EXP_NAME || "default"
 const HOW_MANY = process.env.HOW_MANY || 1000
 const HOW_OFTEN = process.env.HOW_OFTEN || 1000
 const STEP=process.env.STEP || 100
-const PAYLOAD_KB = process.env.PAYLOAD_KB || 1
+const PAYLOAD_BYTE = process.env.PAYLOAD_BYTE || 0
 
 function randomString(length) {
   const chars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
@@ -27,7 +27,7 @@ function randomString(length) {
   return result;
 }
 
-const payload = randomString(1000*PAYLOAD_KB)
+const payload = randomString(PAYLOAD_BYTE)
 
 var counter = 0
 var counter_step = 0

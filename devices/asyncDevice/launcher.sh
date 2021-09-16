@@ -11,7 +11,7 @@ EXP_NAME=$4
 HOW_MANY=$5
 HOW_OFTEN=$6
 STEP=$7
-PAYLOAD_KB=$8
+PAYLOAD_BYTE=$8
 
 echo ${FIWARE_IP}
 echo ${IOTA_NORTH_PORT}
@@ -58,7 +58,7 @@ docker run \
   --env HOW_MANY=${HOW_MANY} \
   --env HOW_OFTEN=${HOW_OFTEN} \
   --env STEP=${STEP} \
-  --env PAYLOAD_KB=${PAYLOAD_KB} \
+  --env PAYLOAD_BYTE=${PAYLOAD_BYTE} \
   --name device${NUM} \
   -v ${ROOT}/${CODE_FOLDER}/devices/simpleDevice/mylogs:/tmp/test/mylogs \
   monte/device
