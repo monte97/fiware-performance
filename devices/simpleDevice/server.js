@@ -75,7 +75,7 @@ function measure(){
     //stream.write(`${(date.toISOString())}, ${date.getTime()}, device${ID}\n`)
     stream.write(`device${ID},${isEnabled},${date.getTime()}\n`)
     client.publish(`/${KEY}/device${ID}/attrs`, `{"p": "${payload}", "s":${isEnabled}, "time":${date.getTime()}}`)
-    console.log(`device${ID}: ${counter}/${HOW_MANY}, this step: ${counter_step}/${HOW_OFTEN})`)
+    //console.log(`device${ID}: ${counter}/${HOW_MANY}, this step: ${counter_step}/${HOW_OFTEN})`)
     counter++
     counter_step++
     if (counter >= HOW_MANY) {
@@ -120,6 +120,7 @@ client.on('message', function (topic, message) {
       isEnabled = true
       registerMeasuerer()
       publishStatus()
+      console.log(`device[${ID}] turned on`)
       client.publish(`/${KEY}/device${ID}/cmdexe`, `{"on": "ok"}`)
       break;
 
