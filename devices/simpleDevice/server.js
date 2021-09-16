@@ -42,7 +42,7 @@ let date = new Date()
 
 console.log(`device${ID}: bootup, isEnabled=${isEnabled}`)
 //stream.write(`${(date.toISOString())}, ${date.getTime()}, device${ID}, null\n`)
-stream.write(`device${ID}, ${isEnabled}, ${date.getTime()}\n`)
+stream.write(`device${ID},${isEnabled},${date.getTime()}\n`)
 
 var client  = mqtt.connect(`${MOSQUITTO}`, {
   port: MOSQUITTO_PORT
@@ -73,7 +73,7 @@ function measure(){
   if (isEnabled) {
     let date = new Date()
     //stream.write(`${(date.toISOString())}, ${date.getTime()}, device${ID}\n`)
-    stream.write(`device${ID}, ${isEnabled}, ${date.getTime()}\n`)
+    stream.write(`device${ID},${isEnabled},${date.getTime()}\n`)
     client.publish(`/${KEY}/device${ID}/attrs`, `{"p": "${payload}", "s":${isEnabled}, "time":${date.getTime()}}`)
     console.log(`device${ID}: ${counter}/${HOW_MANY}, this step: ${counter_step}/${HOW_OFTEN})`)
     counter++
