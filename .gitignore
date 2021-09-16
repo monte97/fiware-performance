@@ -1,2 +1,4 @@
 draco/nifi_volume/conf/archive/
-devices/simpleDevice/mylogs/
+**/devices/simpleDevice/mylogs/
+**/pykafkaConsumer/mylogs/
+**/master_logs/

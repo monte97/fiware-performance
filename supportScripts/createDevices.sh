@@ -21,7 +21,7 @@ docker build -t monte/device .
 for ((i=${FROM}; i<${FROM}+${NUM}; i++))
 do
   echo ${i}
-  ./launcher.sh ${i} on ${TIME} ${EXP_NAME} ${HOW_MANY} ${HOW_OFTEN} ${STEP} ${PAYLOAD_KB} &>/dev/null &
-  sleep 0.5s
+  ./launcher.sh ${i} off ${TIME} ${EXP_NAME} ${HOW_MANY} ${HOW_OFTEN} ${STEP} ${PAYLOAD_KB} &>/dev/null &
+  sleep 0.5
 done
 
