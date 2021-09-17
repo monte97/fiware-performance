@@ -13,12 +13,12 @@ SUB_NUM=$3
 HOW_MANY_MESSAGES=$4
 HOW_OFTEN_SPEEDUP=$5
 SPEEDUP=$6
-PAYLOAD_KB=$7
+PAYLOAD_BYTE=$7
 GROUP_EXP="${8:-misc}"
 
 FIRST_ID=1000
 
-EXP_NAME=${NUM_DEVICE}_${DEVICE_TIME}_${HOW_MANY_MESSAGES}_${SUB_NUM}_${HOW_OFTEN_SPEEDUP}_${SPEEDUP}_${PAYLOAD_KB}_`date +"%G%m%d_%H%M"`
+EXP_NAME=${NUM_DEVICE}_${DEVICE_TIME}_${HOW_MANY_MESSAGES}_${SUB_NUM}_${HOW_OFTEN_SPEEDUP}_${SPEEDUP}_${PAYLOAD_BYTE}_`date +"%G%m%d_%H%M"`
 echo ${EXP_NAME}
 
 ./supportScripts/stopAll.sh
@@ -102,7 +102,7 @@ done
 echo "Finish subscriptions creation"
 
 echo "launch remote device on ${DEVICE_IP}"
-ssh fmontelli@${DEVICE_IP} ${ROOT}/${CODE_FOLDER}/supportScripts/createDevices.sh ${FIRST_ID} ${NUM_DEVICE} ${DEVICE_TIME} ${HOW_MANY_MESSAGES} ${HOW_OFTEN_SPEEDUP} ${SPEEDUP} ${PAYLOAD_KB} ${EXP_NAME} &>/dev/null &
+ssh fmontelli@${DEVICE_IP} ${ROOT}/${CODE_FOLDER}/supportScripts/createDevices.sh ${FIRST_ID} ${NUM_DEVICE} ${DEVICE_TIME} ${HOW_MANY_MESSAGES} ${HOW_OFTEN_SPEEDUP} ${SPEEDUP} ${PAYLOAD_BYTE} ${EXP_NAME} &>/dev/null &
 echo "wait launch on ${DEVICE_IP} completion"
 count_device=$(($(ssh fmontelli@${DEVICE_IP} "docker ps | grep device | wc -l")))
 while [ "${count_device}" != "${NUM_DEVICE}" ]
@@ -135,7 +135,7 @@ do
         "value": ""
       }
   }'
-  sleep 1s
+  #sleep 1s
 done
 
 sleep 20s
@@ -150,7 +150,7 @@ done
 echo "completed"
 
 echo "wait before stop"
-sleep 10m
+sleep 5m
 
 
 #./supportScripts/stopAll.sh
