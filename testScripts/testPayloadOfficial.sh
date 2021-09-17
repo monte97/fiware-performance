@@ -1,12 +1,5 @@
-./launchRemoteExperiment.sh 5 200 1 4500 0 0 1 payloadFewV2
-./launchRemoteExperiment.sh 5 200 1 4500 0 0 10 payloadFewV2
-./launchRemoteExperiment.sh 5 200 1 4500 0 0 100 payloadFewV2
-./launchRemoteExperiment.sh 5 200 1 4500 0 0 1000 payloadFewV2
-./launchRemoteExperiment.sh 5 200 1 4500 0 0 10000 payloadFewV2
-./launchRemoteExperiment.sh 5 200 1 4500 0 0 100000 payloadFewV2
-./launchRemoteExperiment.sh 50 200 1 4500 0 0 1 payloadV2
-./launchRemoteExperiment.sh 50 200 1 4500 0 0 10 payloadV2
-./launchRemoteExperiment.sh 50 200 1 4500 0 0 100 payloadV2
-./launchRemoteExperiment.sh 50 200 1 4500 0 0 1000 payloadV2
-./launchRemoteExperiment.sh 50 200 1 4500 0 0 10000 payloadV2
-./launchRemoteExperiment.sh 50 200 1 4500 0 0 100000 payloadV2
+#!/bin/bash
+EXP_NAME=$1
+./launchRemoteExperiment.sh 50 200 1 4500 0 0 1000 ${EXP_NAME}
+./launchRemoteExperiment.sh 50 200 1 4500 0 0 10000 ${EXP_NAME}
+./launchRemoteExperiment.sh 50 200 1 4500 0 0 100000 ${EXP_NAME}
