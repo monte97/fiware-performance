@@ -14,7 +14,16 @@ services:
       - "${ORION_PORT}"
     ports:
       - "${ORION_PORT_EXT}:${ORION_PORT}" # localhost:1026
-      ##modificato sia per indicare di usare cors e per indicare il nome del nuovo DB
+    ulimits:
+      nofile:
+        soft: 65535
+        hard: 65535
+      core:
+        soft: 60000000
+        hard: 60000000
+      memlock:
+        soft: 60000000
+        hard: 60000000
     command: -corsOrigin __ALL -dbhost mongo-db-orion -logLevel ERROR
     environment:
       - NODE_OPTIONS=--max_old_space_size=60000
