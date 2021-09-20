@@ -15,11 +15,14 @@ HOW_OFTEN_SPEEDUP=$5
 SPEEDUP=$6
 PAYLOAD_BYTE=$7
 GROUP_EXP="${8:-misc}"
+RUN_ID="${9:-misc}"
 
 FIRST_ID=1000
 
 EXP_NAME=${NUM_DEVICE}_${DEVICE_TIME}_${HOW_MANY_MESSAGES}_${SUB_NUM}_${HOW_OFTEN_SPEEDUP}_${SPEEDUP}_${PAYLOAD_BYTE}_`date +"%G%m%d_%H%M%S"`
 echo ${EXP_NAME}
+
+echo "${RUN_ID},${GROUP_ID},${EXP_NAME}" >> ${LOG_FILE}
 
 ./supportScripts/stopAll.sh
 
@@ -157,8 +160,6 @@ sleep 5m
 
 
 echo "Begin download files"
-
-LOGS_FOLDER="master_logs"
 
 mkdir -p ${LOGS_FOLDER}/${GROUP_EXP}/${EXP_NAME}
 mkdir -p ${LOGS_FOLDER}/${GROUP_EXP}/${EXP_NAME}/"devices"
