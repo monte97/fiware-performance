@@ -22,7 +22,7 @@ FIRST_ID=1000
 EXP_NAME=${NUM_DEVICE}_${DEVICE_TIME}_${HOW_MANY_MESSAGES}_${SUB_NUM}_${HOW_OFTEN_SPEEDUP}_${SPEEDUP}_${PAYLOAD_BYTE}_`date +"%G%m%d_%H%M%S"`
 echo ${EXP_NAME}
 
-echo "${RUN_ID},${GROUP_ID},${EXP_NAME}" >> ${LOG_FILE}
+echo "${RUN_ID},${GROUP_EXP},${EXP_NAME}" >> ${LOG_FILE}
 
 ./supportScripts/stopAll.sh
 
