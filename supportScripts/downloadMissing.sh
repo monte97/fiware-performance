@@ -8,10 +8,10 @@ IFS=','
 [ ! -f ${LOG_FILE} ] && { echo "${LOG_FILE} file not found"; exit 99; }
 while read version folder experiment
 do
-  experiment=${experiment::-4}
 	#echo "Version : $version"
 	#echo "Folder : $folder"
 	#echo "Experiment : $experiment"
+  echo "____"
   echo ${version} ${folder} ${experiment}
   path="${LOGS_FOLDER}/${version}/${folder}/${experiment}"
   mkdir -p ${path}
