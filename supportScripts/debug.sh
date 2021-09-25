@@ -7,7 +7,7 @@ fi
 
 rm ${LOG_FILE}
 touch ${LOG_FILE}
-mkdir ${LOGS_FOLDER}/${SET_ID}
+mkdir ${DATA_FOLDER}/${SET_ID}
 
 ./supportScripts/launchRemoteExperiment.sh 2 200 1 1000 0 0 1000 "debug" ${SET_ID}
 

@@ -8,7 +8,7 @@ fi
 rm ${LOG_FILE}
 touch ${LOG_FILE}
 
-mkdir ${LOGS_FOLDER}/${SET_ID}
+mkdir ${DATA_FOLDER}/${SET_ID}
 
 ./testScripts/testDeviceOfficial.sh "DEVICE_${SET_ID}" ${SET_ID}
 ./testScripts/testFreqeuncyOfficial.sh "FREQUENCY_${SET_ID}" ${SET_ID}
