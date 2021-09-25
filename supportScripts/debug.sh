@@ -12,5 +12,5 @@ mkdir ${LOGS_FOLDER}/${SET_ID}
 ./supportScripts/launchRemoteExperiment.sh 2 200 1 1000 0 0 1000 "debug" ${SET_ID}
 
 ./supportScripts/downloadMissing.sh ${LOG_FILE}
-./supportScripts/stopAll.sh
-./supportScripts/removeRemoteLogs.sh
+#./supportScripts/stopAll.sh
+#./supportScripts/removeRemoteLogs.sh

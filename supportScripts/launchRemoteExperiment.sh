@@ -165,11 +165,11 @@ mkdir -p ${LOGS_FOLDER}/${GROUP_EXP}/${EXP_NAME}/"devices"
 mkdir -p ${LOGS_FOLDER}/${GROUP_EXP}/${EXP_NAME}/"consumer"
 
 echo "download device data"
-scp ${USER}@${DEVICE_IP}:${ROOT}/${CODE_FOLDER}/devices/simpleDevice/mylogs/${EXP_NAME}/*.csv ${LOGS_FOLDER}/${GROUP_EXP}/${EXP_NAME}/"devices"/
+scp ${USER}@${DEVICE_IP}:${ROOT}/${CODE_FOLDER}/devices/simpleDevice/mylogs/${EXP_NAME}/*.csv ${DATA_FOLDER}/${GROUP_EXP}/${EXP_NAME}/"devices"/
 
 echo "download consumer data"
 ssh ${USER}@${KAFKACONSUMER_IP} "ls -1t ${ROOT}/${CODE_FOLDER}/pykafkaConsumer/mylogs/*.csv | head -1 | xargs -I{} mv {} ${ROOT}/${CODE_FOLDER}/pykafkaConsumer/mylogs/${EXP_NAME}.csv"
-scp ${USER}@${KAFKACONSUMER_IP}:${ROOT}/${CODE_FOLDER}/pykafkaConsumer/mylogs/${EXP_NAME}.csv ${LOGS_FOLDER}/${GROUP_EXP}/${EXP_NAME}/consumer/
+scp ${USER}@${KAFKACONSUMER_IP}:${ROOT}/${CODE_FOLDER}/pykafkaConsumer/mylogs/${EXP_NAME}.csv ${DATA_FOLDER}/${GROUP_EXP}/${EXP_NAME}/consumer/
 echo "download done"
 
 

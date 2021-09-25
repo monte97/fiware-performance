@@ -13,7 +13,7 @@ do
 	#echo "Experiment : $experiment"
   echo "____"
   echo ${version} ${folder} ${experiment}
-  path="${LOGS_FOLDER}/${version}/${folder}/${experiment}"
+  path="${DATA_FOLDER}/${version}/${folder}/${experiment}"
   mkdir -p ${path}
   mkdir -p ${path}/consumer
   mkdir -p ${path}/devices
