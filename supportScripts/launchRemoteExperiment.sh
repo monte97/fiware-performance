@@ -26,9 +26,8 @@ echo "${RUN_ID},${GROUP_EXP},${EXP_NAME}" >> ${LOG_FILE}
 
 ./supportScripts/stopAll.sh
 
-#avviare fiware
 echo "setup fiware on ${FIWARE_IP}"
-ssh fmontelli@${FIWARE_IP}  docker-compose -f ${ROOT}/${CODE_FOLDER}/docker-compose-fiware.yml up --build &>/dev/null &
+ssh ${USER}@${FIWARE_IP}  docker-compose -f ${ROOT}/${CODE_FOLDER}/docker-compose-fiware.yml up --build &>/dev/null &
 echo "wait for seutp completion"
 ./supportScripts/wait-for-it.sh ${FIWARE_IP}:${ZOOKEEPER_EXT_PORT} --timeout=480 -- echo "zookeeper is up"
 ./supportScripts/wait-for-it.sh ${FIWARE_IP}:${KAFKA_EXT_PORT} --timeout=480 -- echo "kafka is up"
@@ -44,17 +43,17 @@ curl -iX POST \
   -d '{
  "services": [
    {
-     "apikey":      "4jggokgpepnvsb2uv4s40d59ov",
-     "cbroker":     "http://orion:1026",
+     "apikey": "'"${API_KEY}"'",
+     "cbroker": "'"http://orion:${ORION_PORT}"'",
      "entity_type": "Device",
-     "resource":    ""
+     "resource": ""
    }
  ]
 }' #&>/dev/null
 echo "setup service group complete"
 
 echo "setup pykafkaconsumer"
-ssh fmontelli@${KAFKACONSUMER_IP} docker-compose -f ${ROOT}/${CODE_FOLDER}/docker-compose-pythonconsumer.yml up --build &>/dev/null &
+ssh ${USER}@${KAFKACONSUMER_IP} docker-compose -f ${ROOT}/${CODE_FOLDER}/docker-compose-pythonconsumer.yml up --build &>/dev/null &
 echo "wait launch on ${KAFKACONSUMER_IP} completion"
 count_consumer=$(($(ssh fmontelli@${KAFKACONSUMER_IP} "docker ps | grep pykafkaconsumer | wc -l")))
 while [ "${count_consumer}" != 1 ]
@@ -67,12 +66,12 @@ echo "setup of pykafkaconsuer on ${KAFKACONSUMER_IP} done"
 
 echo "setup draco on ${DRACO_IP}"
 echo "wait for completion"
-ssh fmontelli@${DRACO_IP} chmod -R 777 ${ROOT}/${CODE_FOLDER}/draco/nifi_volume
-ssh fmontelli@${DRACO_IP} docker-compose -f ${ROOT}/${CODE_FOLDER}/docker-compose-draco.yml up --build &>/dev/null &
+ssh ${USER}@${DRACO_IP} chmod -R 777 ${ROOT}/${CODE_FOLDER}/draco/nifi_volume
+ssh ${USER}@${DRACO_IP} docker-compose -f ${ROOT}/${CODE_FOLDER}/docker-compose-draco.yml up --build &>/dev/null &
 ./supportScripts/wait-for-it.sh ${DRACO_IP}:${DRACO_API_PORT} --timeout=480 -- echo "draco is up"
 echo "setup draco on ${DRACO_IP} complete"
 
-ssh fmontelli@${FIWARE_IP} ${ROOT}/${CODE_FOLDER}/supportScripts/createIndexMongo.sh
+ssh ${USER}@${FIWARE_IP} ${ROOT}/${CODE_FOLDER}/supportScripts/createIndexMongo.sh
 
 
 echo "setup subscriptions"
@@ -105,12 +104,12 @@ done
 echo "Finish subscriptions creation"
 
 echo "launch remote device on ${DEVICE_IP}"
-ssh fmontelli@${DEVICE_IP} ${ROOT}/${CODE_FOLDER}/supportScripts/createDevices.sh ${FIRST_ID} ${NUM_DEVICE} ${DEVICE_TIME} ${HOW_MANY_MESSAGES} ${HOW_OFTEN_SPEEDUP} ${SPEEDUP} ${PAYLOAD_BYTE} ${EXP_NAME} &>/dev/null &
+ssh ${USER}@${DEVICE_IP} ${ROOT}/${CODE_FOLDER}/supportScripts/createDevices.sh ${FIRST_ID} ${NUM_DEVICE} ${DEVICE_TIME} ${HOW_MANY_MESSAGES} ${HOW_OFTEN_SPEEDUP} ${SPEEDUP} ${PAYLOAD_BYTE} ${EXP_NAME} &>/dev/null &
 echo "wait launch on ${DEVICE_IP} completion"
-count_device=$(($(ssh fmontelli@${DEVICE_IP} "docker ps | grep device | wc -l")))
+count_device=$(($(ssh ${USER}@${DEVICE_IP} "docker ps | grep device | wc -l")))
 while [ "${count_device}" != "${NUM_DEVICE}" ]
 do
-  count_device=$(($(ssh fmontelli@${DEVICE_IP} "docker ps | grep device | wc -l")))
+  count_device=$(($(ssh ${USER}@${DEVICE_IP} "docker ps | grep device | wc -l")))
   sleep 10s
   echo "${count_device}/${NUM_DEVICE} device created"
 done
@@ -144,10 +143,10 @@ done
 sleep 20s
 
 echo "wait completion"
-count_device=$(($(ssh fmontelli@${DEVICE_IP} "docker ps | grep device | wc -l")))
+count_device=$(($(ssh ${USER}@${DEVICE_IP} "docker ps | grep device | wc -l")))
 while [ "${count_device}" != "0" ]
 do
-  count_device=$(($(ssh fmontelli@${DEVICE_IP} "docker ps | grep device | wc -l")))
+  count_device=$(($(ssh ${USER}@${DEVICE_IP} "docker ps | grep device | wc -l")))
   sleep 10s
 done
 echo "completed"
@@ -166,11 +165,11 @@ mkdir -p ${LOGS_FOLDER}/${GROUP_EXP}/${EXP_NAME}/"devices"
 mkdir -p ${LOGS_FOLDER}/${GROUP_EXP}/${EXP_NAME}/"consumer"
 
 echo "download device data"
-scp fmontelli@${DEVICE_IP}:${ROOT}/${CODE_FOLDER}/devices/simpleDevice/mylogs/${EXP_NAME}/*.csv ${LOGS_FOLDER}/${GROUP_EXP}/${EXP_NAME}/"devices"/
+scp ${USER}@${DEVICE_IP}:${ROOT}/${CODE_FOLDER}/devices/simpleDevice/mylogs/${EXP_NAME}/*.csv ${LOGS_FOLDER}/${GROUP_EXP}/${EXP_NAME}/"devices"/
 
 echo "download consumer data"
-ssh fmontelli@${KAFKACONSUMER_IP} "ls -1t ${ROOT}/${CODE_FOLDER}/pykafkaConsumer/mylogs/*.csv | head -1 | xargs -I{} mv {} ${ROOT}/${CODE_FOLDER}/pykafkaConsumer/mylogs/${EXP_NAME}.csv"
-scp fmontelli@${KAFKACONSUMER_IP}:${ROOT}/${CODE_FOLDER}/pykafkaConsumer/mylogs/${EXP_NAME}.csv ${LOGS_FOLDER}/${GROUP_EXP}/${EXP_NAME}/consumer/
+ssh ${USER}@${KAFKACONSUMER_IP} "ls -1t ${ROOT}/${CODE_FOLDER}/pykafkaConsumer/mylogs/*.csv | head -1 | xargs -I{} mv {} ${ROOT}/${CODE_FOLDER}/pykafkaConsumer/mylogs/${EXP_NAME}.csv"
+scp ${USER}@${KAFKACONSUMER_IP}:${ROOT}/${CODE_FOLDER}/pykafkaConsumer/mylogs/${EXP_NAME}.csv ${LOGS_FOLDER}/${GROUP_EXP}/${EXP_NAME}/consumer/
 echo "download done"
 
 

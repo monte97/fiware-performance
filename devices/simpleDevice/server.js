@@ -9,8 +9,8 @@ const fs = require('fs')
 require("dotenv").config()
 
 const ID = process.env.ID
-const KEY = process.env.KEY || "4jggokgpepnvsb2uv4s40d59ov"
-const MOSQUITTO = process.env.MOSQUITTO || "mqtt://mosquitto"
+const KEY = process.env.API_KEY || "4jggokgpepnvsb2uv4s40d59ov"
+const MOSQUITTO = process.env.MOSQUITTO_CONNECTION_STR || "mqtt://mosquitto"
 const MOSQUITTO_PORT = process.env.MOSQUITTO_PORT || 1883
 var isEnabled = process.env.STATUS == "on"
 var TIME = process.env.TIME || 1000

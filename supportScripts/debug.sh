@@ -13,3 +13,4 @@ mkdir ${LOGS_FOLDER}/${SET_ID}
 
 ./supportScripts/downloadMissing.sh ${LOG_FILE}
 ./supportScripts/stopAll.sh
+./supportScripts/removeRemoteLogs.sh

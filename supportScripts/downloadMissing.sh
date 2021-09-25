@@ -23,7 +23,7 @@ do
   else
     echo "must download consumer from ${KAFKACONSUMER_IP}"
     # we assume that in every machine the folder is in the same path
-    scp fmontelli@${KAFKACONSUMER_IP}:$(pwd)/pykafkaConsumer/mylogs/${experiment}.csv ${path}/consumer/
+    scp ${USER}@${KAFKACONSUMER_IP}:$(pwd)/pykafkaConsumer/mylogs/${experiment}.csv ${path}/consumer/
   fi
 
   deviceNum=$(echo ${experiment}| cut -d'_' -f 1)
@@ -37,7 +37,7 @@ do
       echo "file exists"
     else
       echo "missing device, download from ${DEVICE_IP}"
-      scp fmontelli@${DEVICE_IP}:$(pwd)/devices/simpleDevice/mylogs/${experiment}/term${deviceID}.csv ${path}/devices
+      scp ${USER}@${DEVICE_IP}:$(pwd)/devices/simpleDevice/mylogs/${experiment}/term${deviceID}.csv ${path}/devices
     fi
   done
 
