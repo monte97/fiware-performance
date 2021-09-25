@@ -26,6 +26,12 @@ Set:
 
 Stop the executione before continue
 
+## Build
+
+```bash
+./supportScripts/build.sh
+```
+
 ## Note
 - we assume that:
   - the repo is cloned in the same location across all the mechines involved in the experiment
