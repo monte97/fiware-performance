@@ -1,4 +1,9 @@
 #!/bin/bash
+if [ -f .env ]; then
+  export $(echo $(cat .env | sed 's/#.*//g'| xargs) | envsubst)
+fi
+
+
 FROM=$1
 NUM=$2
 TIME=$3
@@ -12,7 +17,7 @@ echo ${EXP_NAME}
 
 #build image
 echo $(pwd)
-cd  ~/tmp/fiware-performance/devices/simpleDevice
+cd  ${ROOT}/${CODE_FOLDER}/devices/simpleDevice
 docker build -t monte/device .
 
 #sleep 1m
