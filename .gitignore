@@ -3,3 +3,4 @@ draco/nifi_volume/conf/archive/
 **/pykafkaConsumer/mylogs/
 **/data/
 experimentLog.csv
+**/analysis/venv/
