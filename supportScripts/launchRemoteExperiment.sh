@@ -2,10 +2,6 @@
 if [ -f .env ]; then
   export $(echo $(cat .env | sed 's/#.*//g'| xargs) | envsubst)
 fi
-if [ -f kafka-docker/.env ]; then
-  export $(echo $(cat kafka-docker/.env | sed 's/#.*//g'| xargs) | envsubst)
-fi
-
 
 NUM_DEVICE=$1
 DEVICE_TIME=$2
@@ -160,11 +156,12 @@ sleep 5m
 
 echo "Begin download files"
 
-mkdir -p ${LOGS_FOLDER}/${GROUP_EXP}/${EXP_NAME}
-mkdir -p ${LOGS_FOLDER}/${GROUP_EXP}/${EXP_NAME}/"devices"
-mkdir -p ${LOGS_FOLDER}/${GROUP_EXP}/${EXP_NAME}/"consumer"
+mkdir -p ${DATA_FOLDER}/${GROUP_EXP}/${EXP_NAME}
+mkdir -p ${DATA_FOLDER}/${GROUP_EXP}/${EXP_NAME}/"devices"
+mkdir -p ${DATA_FOLDER}/${GROUP_EXP}/${EXP_NAME}/"consumer"
 
 echo "download device data"
+echo ${DATA_FOLDER}/${GROUP_EXP}/${EXP_NAME}/"devices"/
 scp ${USER}@${DEVICE_IP}:${ROOT}/${CODE_FOLDER}/devices/simpleDevice/mylogs/${EXP_NAME}/*.csv ${DATA_FOLDER}/${GROUP_EXP}/${EXP_NAME}/"devices"/
 
 echo "download consumer data"
