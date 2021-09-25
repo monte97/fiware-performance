@@ -9,7 +9,9 @@ rm ${LOG_FILE}
 touch ${LOG_FILE}
 mkdir ${DATA_FOLDER}/${SET_ID}
 
-./supportScripts/launchRemoteExperiment.sh 2 200 1 1000 0 0 1000 "debug" ${SET_ID}
+./supportScripts/launchRemoteExperiment.sh 2 200 1 10 0 0 1000 "debug" ${SET_ID}
+
+mv ${DATA_FOLDER}/*_${SET_ID} ${DATA_FOLDER}/${SET_ID}
 
 ./supportScripts/downloadMissing.sh ${LOG_FILE}
 #./supportScripts/stopAll.sh
