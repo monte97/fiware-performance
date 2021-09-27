@@ -49,9 +49,9 @@ curl -iX POST \
 echo "setup service group complete"
 
 echo "setup pykafkaconsumer"
-PYC_UID=$(ssh ${USER}@${KAFKACONSUMER_IP} id-u)
-PYC_GID=$(ssh ${USER}@${KAFKACONSUMER_IP} id-g)
-ssh ${USER}@${KAFKACONSUMER_IP} docker-compose -f docker-compose-pythonconsumer.yml build --build-arg uid=${PYC_UID} --build-arg gid=${PYC_GID}
+PYC_UID=$(ssh ${USER}@${KAFKACONSUMER_IP} id -u)
+PYC_GID=$(ssh ${USER}@${KAFKACONSUMER_IP} id -g)
+ssh ${USER}@${KAFKACONSUMER_IP} docker-compose -f ${ROOT}/${CODE_FOLDER}/docker-compose-pythonconsumer.yml build --build-arg uid=${PYC_UID} --build-arg gid=${PYC_GID}
 ssh ${USER}@${KAFKACONSUMER_IP} docker-compose -f ${ROOT}/${CODE_FOLDER}/docker-compose-pythonconsumer.yml up &>/dev/null &
 echo "wait launch on ${KAFKACONSUMER_IP} completion"
 count_consumer=$(($(ssh ${USER}@${KAFKACONSUMER_IP} "docker ps | grep pykafkaconsumer | wc -l")))
@@ -103,7 +103,7 @@ done
 echo "Finish subscriptions creation"
 
 echo "launch remote device on ${DEVICE_IP}"
-ssh ${USER}@${DEVICE_IP} ${ROOT}/${CODE_FOLDER}/supportScripts/createDevices.sh ${FIRST_ID} ${NUM_DEVICE} ${DEVICE_TIME} ${HOW_MANY_MESSAGES} ${HOW_OFTEN_SPEEDUP} ${SPEEDUP} ${PAYLOAD_BYTE} ${EXP_NAME} &>/dev/null &
+ssh ${USER}@${DEVICE_IP} "cd ${ROOT}/${CODE_FOLDER}/ && ./supportScripts/createDevices.sh ${FIRST_ID} ${NUM_DEVICE} ${DEVICE_TIME} ${HOW_MANY_MESSAGES} ${HOW_OFTEN_SPEEDUP} ${SPEEDUP} ${PAYLOAD_BYTE} ${EXP_NAME}"
 echo "wait launch on ${DEVICE_IP} completion"
 count_device=$(($(ssh ${USER}@${DEVICE_IP} "docker ps | grep device | wc -l")))
 while [ "${count_device}" != "${NUM_DEVICE}" ]
@@ -171,5 +171,3 @@ echo "download consumer data"
 ssh ${USER}@${KAFKACONSUMER_IP} "ls -1t ${ROOT}/${CODE_FOLDER}/pykafkaConsumer/mylogs/*.csv | head -1 | xargs -I{} mv {} ${ROOT}/${CODE_FOLDER}/pykafkaConsumer/mylogs/${EXP_NAME}.csv"
 scp ${USER}@${KAFKACONSUMER_IP}:${ROOT}/${CODE_FOLDER}/pykafkaConsumer/mylogs/${EXP_NAME}.csv ${DATA_FOLDER}/${GROUP_EXP}/${EXP_NAME}/consumer/
 echo "download done"
-
-
