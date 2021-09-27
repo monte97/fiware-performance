@@ -49,6 +49,7 @@ curl -iX POST \
 echo "setup service group complete"
 
 echo "setup pykafkaconsumer"
+ssh ${USER}@${KAFKACONSUMER_IP} mkdir -p ${ROOT}/${CODE_FOLDER}/pykafkaConsumer/mylogs
 PYC_UID=$(ssh ${USER}@${KAFKACONSUMER_IP} id -u)
 PYC_GID=$(ssh ${USER}@${KAFKACONSUMER_IP} id -g)
 ssh ${USER}@${KAFKACONSUMER_IP} docker-compose -f ${ROOT}/${CODE_FOLDER}/docker-compose-pythonconsumer.yml build --build-arg uid=${PYC_UID} --build-arg gid=${PYC_GID}
@@ -103,6 +104,7 @@ done
 echo "Finish subscriptions creation"
 
 echo "launch remote device on ${DEVICE_IP}"
+ssh ${USER}@${KAFKACONSUMER_IP} mkdir -p ${ROOT}/${CODE_FOLDER}/devices/simpleDevice/mylogs
 ssh ${USER}@${DEVICE_IP} "cd ${ROOT}/${CODE_FOLDER}/ && ./supportScripts/createDevices.sh ${FIRST_ID} ${NUM_DEVICE} ${DEVICE_TIME} ${HOW_MANY_MESSAGES} ${HOW_OFTEN_SPEEDUP} ${SPEEDUP} ${PAYLOAD_BYTE} ${EXP_NAME}"
 echo "wait launch on ${DEVICE_IP} completion"
 count_device=$(($(ssh ${USER}@${DEVICE_IP} "docker ps | grep device | wc -l")))
