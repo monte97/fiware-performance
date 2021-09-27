@@ -49,7 +49,10 @@ curl -iX POST \
 echo "setup service group complete"
 
 echo "setup pykafkaconsumer"
-ssh ${USER}@${KAFKACONSUMER_IP} docker-compose -f ${ROOT}/${CODE_FOLDER}/docker-compose-pythonconsumer.yml up --build &>/dev/null &
+PYC_UID=$(ssh ${USER}@${KAFKACONSUMER_IP} id-u)
+PYC_GID=$(ssh ${USER}@${KAFKACONSUMER_IP} id-g)
+ssh ${USER}@${KAFKACONSUMER_IP} docker-compose -f docker-compose-pythonconsumer.yml build --build-arg uid=${PYC_UID} --build-arg gid=${PYC_GID}
+ssh ${USER}@${KAFKACONSUMER_IP} docker-compose -f ${ROOT}/${CODE_FOLDER}/docker-compose-pythonconsumer.yml up &>/dev/null &
 echo "wait launch on ${KAFKACONSUMER_IP} completion"
 count_consumer=$(($(ssh ${USER}@${KAFKACONSUMER_IP} "docker ps | grep pykafkaconsumer | wc -l")))
 while [ "${count_consumer}" != 1 ]
