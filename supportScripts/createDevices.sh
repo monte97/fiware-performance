@@ -18,7 +18,7 @@ echo ${EXP_NAME}
 #build image
 echo $(pwd)
 cd  ${ROOT}/${CODE_FOLDER}/devices/simpleDevice
-docker build -t monte/device .
+docker build -t monte/device --build-arg uid=$(id -u) .
 
 #sleep 1m
 

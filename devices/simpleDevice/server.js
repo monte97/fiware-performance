@@ -10,7 +10,7 @@ require("dotenv").config()
 
 const ID = process.env.ID
 const KEY = process.env.API_KEY || "4jggokgpepnvsb2uv4s40d59ov"
-const MOSQUITTO = process.env.MOSQUITTO_CONNECTION_STR || "mqtt://mosquitto"
+const MOSQUITTO = process.env.MOSQUITTO || "mqtt://mosquitto"
 const MOSQUITTO_PORT = process.env.MOSQUITTO_PORT || 1883
 var isEnabled = process.env.STATUS == "on"
 var TIME = process.env.TIME || 1000
@@ -41,6 +41,8 @@ var stream = fs.createWriteStream(`${path}/term${ID}.csv`, {flags: 'a'})
 let date = new Date()
 
 console.log(`device${ID}: bootup, isEnabled=${isEnabled}`)
+console.log(`${MOSQUITTO}:${MOSQUITTO_PORT}`)
+console.log(`${PAYLOAD_BYTE}`)
 //stream.write(`${(date.toISOString())}, ${date.getTime()}, device${ID}, null\n`)
 stream.write(`device${ID},${isEnabled},${date.getTime()}\n`)
 
