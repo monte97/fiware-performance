@@ -15,7 +15,7 @@ PAYLOAD_BYTE=$8
 
 echo ${FIWARE_IP}
 echo ${IOTA_NORTH_PORT}
-
+echo ${MOSQUITTO_CONNECION_STR}
 curl \
     --max-time 10 \
     --connect-timeout 2 \
@@ -49,6 +49,7 @@ curl \
 
 echo "post post"
 echo $(pwd)
+echo "connections str=${MOSQUITTO_CONNECTION_STR}"
 #pass NUM to docker as env variable
 docker run \
   --env ID=${NUM} \
@@ -59,6 +60,8 @@ docker run \
   --env HOW_OFTEN=${HOW_OFTEN} \
   --env STEP=${STEP} \
   --env PAYLOAD_BYTE=${PAYLOAD_BYTE} \
+  --env MOSQUITTO=${MOSQUITTO_CONNECTION_STR} \
+  --env MOSQUITTO_PORT=${MOSQUITTO_PORT_EXT} \
   --name device${NUM} \
   -v ${ROOT}/${CODE_FOLDER}/devices/simpleDevice/mylogs:/tmp/test/mylogs \
   monte/device
