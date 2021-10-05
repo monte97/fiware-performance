@@ -18,7 +18,7 @@ Through the `.env` file it is also possible to modify the ports used by the vari
 Use the following command to launch Draco in edit mode and edit the configuration for the `publish kafka record` block
 
 ```bash
-docker-compose --file docker-compose-editnifiup --build
+docker-compose --file docker-compose-editnifi.yml up --build
 ```
 Set:
 - kafka brokers: samve value as "FIWARE_IP" in .evn
